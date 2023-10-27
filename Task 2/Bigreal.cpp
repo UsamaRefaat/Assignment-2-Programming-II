@@ -293,55 +293,157 @@ bigreal bigreal :: operator+(bigreal a) {
             }
         }
         if (!ind1 && ind2) {
-            for (int i = a.number.length()-1; i >= ind2; --i) {
-                c.number += a.number[i];
-            }
-
-            string n_num (number.length()-ind2,'0');
-            for (int i = 0; i < ind2; ++i) {
-                n_num += a.number[i];
-            }
             int car{};
-            for (int i = number.length()-1; i >= 0; i--) {
-                int sum = (number[i] - '0')+(n_num[i] - '0');
-                sum += car;
-                if (sum < 10) {
-                    c.number += (sum + '0');
-                    car = 0;
-                } else {
-                    string ch = to_string(sum);
-                    c.number += ch[1];
-                    car = 1;
+            if (ind2 <= number.length()) {
+                for (int i = a.number.length()-1; i >= ind2; --i) {
+                    c.number += a.number[i];
+                }
+                string n_num (number.length()-ind2,'0');
+                for (int i = 0; i < ind2; ++i) {
+                    n_num += a.number[i];
+                }
+                for (int i = number.length()-1; i >= 0; i--) {
+                    int sum = (number[i] - '0')+(n_num[i] - '0');
+                    sum += car;
+                    if (sum < 10) {
+                        c.number += (sum + '0');
+                        car = 0;
+                    } else {
+                        string ch = to_string(sum);
+                        c.number += ch[1];
+                        car = 1;
+                    }
+                }
+            } else {
+                for (int i = a.number.length()-1; i >= ind2; --i) {
+                    c.number += a.number[i];
+                }
+                string n_num (ind2-number.length(),'0');
+                for (int i = 0; i < number.length(); ++i) {
+                    n_num += number[i];
+                }
+                for (int i = n_num.length()-1; i >= 0; i--) {
+                    int sum = (n_num[i] - '0')+(a.number[i] - '0');
+                    sum += car;
+                    if (sum < 10) {
+                        c.number += (sum + '0');
+                        car = 0;
+                    } else {
+                        string ch = to_string(sum);
+                        c.number += ch[1];
+                        car = 1;
+                    }
                 }
             }
-
+            if (car) {
+                c.number += (car + '0');
+            }
             reverse(c.number.begin(),c.number.end());
             return c;
         } else if (ind1 && !ind2) {
-            for (int i = number.length()-1; i >= ind1; --i) {
-                c.number += number[i];
-            }
-            string n_num (a.number.length()-ind1,'0');
-            for (int i = 0; i < ind1; ++i) {
-                n_num += number[i];
-            }
             int car{};
-            for (int i = a.number.length()-1; i >= 0; i--) {
-                int sum = (a.number[i] - '0')+(n_num[i] - '0');
-                sum += car;
-                if (sum < 10) {
-                    c.number += (sum + '0');
-                    car = 0;
-                } else {
-                    string ch = to_string(sum);
-                    c.number += ch[1];
-                    car = 1;
+            string temp1 = number,temp2 = a.number;
+            number = temp2;
+            a.number = temp1;
+            int temp3 = ind1,temp4 = ind2;
+            ind1 = temp4;
+            ind2 = temp3;
+            if (ind2 <= number.length()) {
+                for (int i = a.number.length()-1; i >= ind2; --i) {
+                    c.number += a.number[i];
+                }
+                string n_num (number.length()-ind2,'0');
+                for (int i = 0; i < ind2; ++i) {
+                    n_num += a.number[i];
+                }
+                for (int i = number.length()-1; i >= 0; i--) {
+                    int sum = (number[i] - '0')+(n_num[i] - '0');
+                    sum += car;
+                    if (sum < 10) {
+                        c.number += (sum + '0');
+                        car = 0;
+                    } else {
+                        string ch = to_string(sum);
+                        c.number += ch[1];
+                        car = 1;
+                    }
+                }
+            } else {
+                for (int i = a.number.length()-1; i >= ind2; --i) {
+                    c.number += a.number[i];
+                }
+                string n_num (ind2-number.length(),'0');
+                for (int i = 0; i < number.length(); ++i) {
+                    n_num += number[i];
+                }
+                for (int i = n_num.length()-1; i >= 0; i--) {
+                    int sum = (n_num[i] - '0')+(a.number[i] - '0');
+                    sum += car;
+                    if (sum < 10) {
+                        c.number += (sum + '0');
+                        car = 0;
+                    } else {
+                        string ch = to_string(sum);
+                        c.number += ch[1];
+                        car = 1;
+                    }
                 }
             }
+            if (car) {
+                c.number += ('1');
+            }
+            number = temp1;
+            a.number = temp2;
             reverse(c.number.begin(),c.number.end());
             return c;
         } else if (!ind1 && !ind2) {
-
+            if (number.length() >= a.number.length()) {
+                string n_num(number.length()-a.number.length(),'0');
+                for (int i = 0; i < a.number.length(); ++i) {
+                    n_num += a.number[i];
+                }
+                int car{};
+                for (int i = number.length()-1; i >= 0;i--) {
+                    int sum = (n_num[i] - '0')+(number[i] - '0');
+                    sum += car;
+                    if (sum < 10) {
+                        c.number += (sum + '0');
+                        car = 0;
+                    } else {
+                        string ch = to_string(sum);
+                        c.number += ch[1];
+                        car = 1;
+                    }
+                }
+                if (car) {
+                    c.number += '1';
+                }
+                reverse(c.number.begin(),c.number.end());
+                return c;
+            } else if (number.length() < a.number.length()) {
+                string n_num(a.number.length()-number.length(),'0');
+                for (int i = 0; i < number.length(); ++i) {
+                    n_num += number[i];
+                }
+                int car{};
+                for (int i = a.number.length()-1; i >= 0;i--) {
+                    int sum = (n_num[i] - '0')+(a.number[i] - '0');
+                    sum += car;
+                    if (sum < 10) {
+                        c.number += (sum + '0');
+                        car = 0;
+                    } else {
+                        string ch = to_string(sum);
+                        c.number += ch[1];
+                        car = 1;
+                    }
+                }
+                if (car) {
+                    c.number += '1';
+                }
+                reverse(c.number.begin(),c.number.end());
+                return c;
+            }
         }
         else if (ind1 >= ind2) {
             int h = ind1-ind2;
@@ -434,6 +536,7 @@ bigreal bigreal :: operator+(bigreal a) {
         }
     }
 }
+
 ostream & operator << (ostream& out, bigreal a) {
     return out << a.number << endl;
 }
