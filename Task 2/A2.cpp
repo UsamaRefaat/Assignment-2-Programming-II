@@ -1,10 +1,5 @@
-// File: ……….cpp
-// Purpose: For C++ training
-// Author: Mostafa Mohamed
-// Section: 21
-// ID: 20221153
-// TA: Rana Abdelkader
-// Date: 25 Oct 2023
+// BigReal OOP Project.
+//TASK 2.
 
 #include "BigReal.h"
 using namespace std;
@@ -12,7 +7,10 @@ using namespace std;
 
 
 int main() {
-    bigreal a("32.5");
-    bigreal b("8");
-    cout<<a+b;
+    bigreal n1 ("11.9000000000000000000000000000000001");
+    bigreal n2 ("2333333333339.1134322222222292");
+    bigreal n3 = n1 + n2;
+    cout << n3;
+    n3 = n3 + bigreal ("0.9");
+    cout<<n3;
 }
