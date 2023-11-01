@@ -5,20 +5,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class bigreal {
+class BigReal {
 private:
     string number;
     bool neg = false;
 public:
     bool isValid (string s);
-    bigreal() {
+    BigReal() {
         number = "";
     }
-    bigreal (string number) : number(number) {
-        if (number[0] == '-') {
-            neg = true;
-        }
-    }
+    BigReal (string number);
     void set_string(string real_number) {
         number = real_number;
         if (number[0] == '-') {
@@ -27,6 +23,7 @@ public:
     }
     void not_valid () {
         cout<<"INVALID NUMBERS";
+        exit(0);
     }
     bool get_neg() {
         return neg;
@@ -34,12 +31,12 @@ public:
     string get_string() {
         return number;
     }
-    bigreal operator + ( bigreal a);
-    bigreal operator - ( bigreal a);
-    bool operator < ( bigreal a);
-    bool operator > ( bigreal a);
-    bool operator == ( bigreal a);
-    friend ostream& operator << (ostream& out, bigreal num);
+    BigReal operator + ( BigReal a);
+    BigReal operator - ( BigReal a);
+    bool operator < ( BigReal a);
+    bool operator > ( BigReal a);
+    bool operator == ( BigReal a);
+    friend ostream& operator << (ostream& out, BigReal num);
 };
 
 

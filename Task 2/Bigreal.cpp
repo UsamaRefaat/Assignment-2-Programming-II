@@ -2,12 +2,26 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool bigreal :: isValid(std::string s) {
+bool BigReal :: isValid(string s) {
     int ctr{};
+    bool pos = false,ng = false;
+    int ind_p{},ind_n{};
     for (int i = 0; i < s.length(); ++i) {
+        if (isalpha(s[i])) return false;
         if (s[i] == '.')
             ctr++;
-        else if (isalpha(s[i])) return false;
+        if (s[i] == '+') { pos = true; ind_p = i;}
+        if (s[i] == '-') {ng = true; ind_n = i;}
+        if (s[i] == ' ') {return false;}
+    }
+    if (ng && pos || number.length()==0) {
+        return false;
+    } else if (pos) {
+        if(ind_p) {return false;}
+        else return true;
+    } else if (neg) {
+        if(ind_n) {return false;}
+        else return true;
     }
     if (ctr > 1) {
         return false;
@@ -15,7 +29,25 @@ bool bigreal :: isValid(std::string s) {
         return true;
     }
 }
-bool bigreal :: operator>( bigreal a) {
+BigReal ::BigReal(string number)  : number(number) {
+    if (!isValid(number)) {not_valid();}
+    if (this->number[0] == '-') {
+        neg = true;
+    }
+    if (this->number[0] == '.') {
+        this->number = "0"+this->number;
+    }
+    else if (this->number[0] == '+' && this->number[1] == '.') {
+        this->number.erase(this->number.begin());
+        this->number = "0"+this->number;
+    }
+    else if (this->number[0] == '-' && this->number[1] == '.') {
+        this->number.erase(this->number.begin());
+        this->number = "0"+this->number;
+        this->number = "-"+this->number;
+    } else if (this->number[0] == '+') {this->number.erase(this->number.begin());}
+}
+bool BigReal :: operator>( BigReal a) {
     if (!(isValid(number) && isValid(a.number))) {
         not_valid();
         exit(0);
@@ -84,15 +116,15 @@ bool bigreal :: operator>( bigreal a) {
         string temp1="",temp2="";
         for (int i = 1; i < number.length(); ++i) {temp1 += number[i];}
         for (int i = 1; i < a.number.length(); ++i) {temp2 += a.number[i];}
-        bigreal b(temp1);
-        bigreal c(temp2);
+        BigReal b(temp1);
+        BigReal c(temp2);
         if (b > c) {
             return false;
         }
         return true;
     }
 }
-bool bigreal :: operator<(bigreal a) {
+bool BigReal :: operator<(BigReal a) {
     if (!(isValid(number) && isValid(a.number))) {
         not_valid();
         exit(0);
@@ -101,7 +133,7 @@ bool bigreal :: operator<(bigreal a) {
     if (*this == a) return false;
     else return false;
 }
-bool bigreal :: operator==(bigreal a) {
+bool BigReal :: operator==(BigReal a) {
     if (!(isValid(number) && isValid(a.number))) {
         not_valid();
         exit(0);
@@ -112,18 +144,18 @@ bool bigreal :: operator==(bigreal a) {
         return false;
     }
 }
-bigreal bigreal :: operator+(bigreal a) {
+BigReal BigReal :: operator+(BigReal a) {
     if (!(isValid(number) && isValid(a.number))) {
         not_valid();
         exit(0);
     }
-    bigreal c;
+    BigReal c;
     if (neg && a.neg) {
         string temp1="",temp2="";
         for (int i = 1; i < number.length(); ++i) {temp1 += number[i];}
         for (int i = 1; i < a.number.length(); ++i) {temp2 += a.number[i];}
-        bigreal b(temp1);
-        bigreal d(temp2);
+        BigReal b(temp1);
+        BigReal d(temp2);
         c = b+d; c.number = "-"+c.number;
         return c;
     } else if (neg && !a.neg) {
@@ -139,121 +171,31 @@ bigreal bigreal :: operator+(bigreal a) {
         a.number = "-"+a.number; a.neg = true;
         return c;
     }
-        int ind1{},ind2{};
-        for (int i = 0; i < number.length(); ++i) {
-            if (number[i] == '.') {
-                ind1 = i;
-                break;
-            }
+    int ind1{},ind2{};
+    for (int i = 0; i < number.length(); ++i) {
+        if (number[i] == '.') {
+            ind1 = i;
+            break;
         }
-        for (int i = 0; i < a.number.length(); ++i) {
-            if (a.number[i] == '.') {
-                ind2 = i;
-                break;
-            }
+    }
+    for (int i = 0; i < a.number.length(); ++i) {
+        if (a.number[i] == '.') {
+            ind2 = i;
+            break;
         }
-        if (!ind1 && ind2) {
-            bool ok = false;
-            int car{};
-            if (ind2 <= number.length()) {
-                for (int i = a.number.length()-1; i >= ind2; --i) {
-                    c.number += a.number[i];
-                }
-                string n_num (number.length()-ind2,'0');
-                for (int i = 0; i < ind2; ++i) {
-                    n_num += a.number[i];
-                }
-                for (int i = number.length()-1; i >= 0; i--) {
-                    int sum = (number[i] - '0')+(n_num[i] - '0');
-                    sum += car;
-                    if (sum < 10) {
-                        c.number += (sum + '0');
-                        car = 0;
-                    } else {
-                        string ch = to_string(sum);
-                        c.number += ch[1];
-                        car = 1;
-                    }
-                }
-            } else {
-                for (int i = a.number.length()-1; i >= ind2; --i) {
-                    c.number += a.number[i];
-                }
-                string n_num (ind2-number.length(),'0');
-                for (int i = 0; i < number.length(); ++i) {
-                    n_num += number[i];
-                }
-                for (int i = n_num.length()-1; i >= 0; i--) {
-                    int sum = (n_num[i] - '0')+(a.number[i] - '0');
-                    sum += car;
-                    if (sum < 10) {
-                        c.number += (sum + '0');
-                        car = 0;
-                    } else {
-                        string ch = to_string(sum);
-                        c.number += ch[1];
-                        car = 1;
-                    }
-                }
+    }
+    if (!ind1 && ind2) {
+        bool ok = false;
+        int car{};
+        if (ind2 <= number.length()) {
+            for (int i = a.number.length()-1; i >= ind2; --i) {
+                c.number += a.number[i];
             }
-            if (car) c.number += (car + '0');
-            reverse(c.number.begin(),c.number.end());
-            return c;
-        } else if (ind1 && !ind2) {
-            c = a + *this;
-            return c;
-        } else if (!ind1 && !ind2) {
-            if (number.length() >= a.number.length()) {
-                string n_num(number.length()-a.number.length(),'0');
-                for (int i = 0; i < a.number.length(); ++i) {
-                    n_num += a.number[i];
-                }
-                int car{};
-                for (int i = number.length()-1; i >= 0;i--) {
-                    int sum = (n_num[i] - '0')+(number[i] - '0');
-                    sum += car;
-                    if (sum < 10) {
-                        c.number += (sum + '0');
-                        car = 0;
-                    } else {
-                        string ch = to_string(sum);
-                        c.number += ch[1];
-                        car = 1;
-                    }
-                }
-                if (car) c.number += '1';
-                reverse(c.number.begin(),c.number.end());
-                return c;
-            } else if (number.length() < a.number.length()) {
-                c = a + *this;
-                return c;
-            }
-        }
-        else if (ind1 >= ind2) {
-            int h = abs(ind1-ind2);
-            string n_num(h,'0');
-            for (int i = 0; i < a.number.length(); ++i) {
+            string n_num (number.length()-ind2,'0');
+            for (int i = 0; i < ind2; ++i) {
                 n_num += a.number[i];
             }
-            int car{};
-            int k = number.length();
-            if (number.length() > n_num.length()) {
-                for (int i = number.length()-1; i >= n_num.length() ; i--) {
-                    c.number += number[i];
-                    k = i;
-                }
-            } else {
-                for (int i = n_num.length()-1; i >= number.length() ; i--) {
-                    c.number += n_num[i];
-                    k = i;
-                }
-            }
-
-            for (int i = k-1; i >= 0; i--) {
-                if (number[i] == '.') {
-                    c.number += '.';
-                    continue;
-                }
+            for (int i = number.length()-1; i >= 0; i--) {
                 int sum = (number[i] - '0')+(n_num[i] - '0');
                 sum += car;
                 if (sum < 10) {
@@ -265,17 +207,107 @@ bigreal bigreal :: operator+(bigreal a) {
                     car = 1;
                 }
             }
-            if (car) c.number += (car + '0');
+        } else {
+            for (int i = a.number.length()-1; i >= ind2; --i) {
+                c.number += a.number[i];
+            }
+            string n_num (ind2-number.length(),'0');
+            for (int i = 0; i < number.length(); ++i) {
+                n_num += number[i];
+            }
+            for (int i = n_num.length()-1; i >= 0; i--) {
+                int sum = (n_num[i] - '0')+(a.number[i] - '0');
+                sum += car;
+                if (sum < 10) {
+                    c.number += (sum + '0');
+                    car = 0;
+                } else {
+                    string ch = to_string(sum);
+                    c.number += ch[1];
+                    car = 1;
+                }
+            }
+        }
+        if (car) c.number += (car + '0');
+        reverse(c.number.begin(),c.number.end());
+        return c;
+    } else if (ind1 && !ind2) {
+        c = a + *this;
+        return c;
+    } else if (!ind1 && !ind2) {
+        if (number.length() >= a.number.length()) {
+            string n_num(number.length()-a.number.length(),'0');
+            for (int i = 0; i < a.number.length(); ++i) {
+                n_num += a.number[i];
+            }
+            int car{};
+            for (int i = number.length()-1; i >= 0;i--) {
+                int sum = (n_num[i] - '0')+(number[i] - '0');
+                sum += car;
+                if (sum < 10) {
+                    c.number += (sum + '0');
+                    car = 0;
+                } else {
+                    string ch = to_string(sum);
+                    c.number += ch[1];
+                    car = 1;
+                }
+            }
+            if (car) c.number += '1';
             reverse(c.number.begin(),c.number.end());
             return c;
-        } else {
+        } else if (number.length() < a.number.length()) {
             c = a + *this;
             return c;
         }
+    }
+    else if (ind1 >= ind2) {
+        int h = abs(ind1-ind2);
+        string n_num(h,'0');
+        for (int i = 0; i < a.number.length(); ++i) {
+            n_num += a.number[i];
+        }
+        int car{};
+        int k = number.length();
+        if (number.length() > n_num.length()) {
+            for (int i = number.length()-1; i >= n_num.length() ; i--) {
+                c.number += number[i];
+                k = i;
+            }
+        } else {
+            for (int i = n_num.length()-1; i >= number.length() ; i--) {
+                c.number += n_num[i];
+                k = i;
+            }
+        }
+
+        for (int i = k-1; i >= 0; i--) {
+            if (number[i] == '.') {
+                c.number += '.';
+                continue;
+            }
+            int sum = (number[i] - '0')+(n_num[i] - '0');
+            sum += car;
+            if (sum < 10) {
+                c.number += (sum + '0');
+                car = 0;
+            } else {
+                string ch = to_string(sum);
+                c.number += ch[1];
+                car = 1;
+            }
+        }
+        if (car) c.number += (car + '0');
+        reverse(c.number.begin(),c.number.end());
+        return c;
+    } else {
+        c = a + *this;
+        return c;
+    }
 }
-bigreal bigreal::operator-(bigreal a) {
+BigReal BigReal::operator-(BigReal a) {
     bool neg1;
-    bigreal c;
+    BigReal c;
     neg1 = a.neg;
     if(!neg && !neg1) {
         if ((*this > a)||(*this == a)) {
@@ -283,8 +315,6 @@ bigreal bigreal::operator-(bigreal a) {
                 not_valid();
                 exit(0);
             }
-            bigreal c;
-
             int ind1{},ind2{};
             for (int i = 0; i < number.length(); ++i) {
                 if (number[i] == '.') {
@@ -371,6 +401,6 @@ bigreal bigreal::operator-(bigreal a) {
         return c;
     }
 }
-ostream & operator << (ostream& out, bigreal a) {
+ostream & operator << (ostream& out, BigReal a) {
     return out << a.number << endl;
 }
