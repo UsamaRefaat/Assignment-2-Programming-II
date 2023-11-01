@@ -19,7 +19,7 @@ bool BigReal :: isValid(string s) {
     } else if (pos) {
         if(ind_p) {return false;}
         else return true;
-    } else if (neg) {
+    } else if (ng) {
         if(ind_n) {return false;}
         else return true;
     }
