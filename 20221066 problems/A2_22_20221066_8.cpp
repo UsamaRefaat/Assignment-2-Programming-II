@@ -1,36 +1,20 @@
-// File: A2-22-20221066-8.cpp
-// Purpose: solving the assignment.
-// Author: Ziad Tawfik.
-// Section: S22.
-// ID: 20221066.
-// TA: Rana Abd-ELkader.
-// Date: 25 Oct 2023
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-# define endl '\n'
-# define ll long long
-void printStars_spaces(int numStars, int spaces) {
-    for (int i = 0  ; i <  spaces ; i++)
-    {
-        cout << "  "  ;
-    }
-    for (int c = 0 ; c < numStars ;c++)
-    {
-        cout << "* ";
-    }
-    cout << endl ;
-}
-void pattern(int n, int i) {
-    if (n == 1) {
-        printStars_spaces(1, i);
-        return;
-    }
 
-    pattern(n / 2, i);
-    printStars_spaces(n, i);
-    pattern(n / 2, i + n / 2);
+void pattern( int l , int len )
+{   if (len == 0)
+        return;
+    pattern( l, len / 2 );                          // above
+
+    for ( int i = 0; i < l  ; i++ ) cout << "  ";
+    for ( int i = 0; i < len; i++ ) cout << "* ";        // Central
+    cout << endl;
+
+    pattern( l + (len / 2), len / 2 );               //  below
 }
-int main() {
-    pattern(8 ,0) ;
-    return 0;
+
+int main()
+{
+
+    pattern( 0, 8 );
 }
