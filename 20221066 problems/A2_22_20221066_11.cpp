@@ -23,7 +23,9 @@ void compareCharacterByCharacter(ifstream& file1, ifstream& file2) {
         lineNum++;
     }
 
-    if (file1.eof() && file2.eof()) {
+    if ((file1.eof() && !file2.eof()) || (!file1.eof() && file2.eof()))
+        cout << "Files are not identical.\n";
+    else if (file1.eof() && file2.eof()) {
         cout << "Files are identical.\n";
     }
 }
@@ -34,7 +36,8 @@ void compareWordByWord(ifstream& file1, ifstream& file2) {
     while (file1 >> word1 && file2 >> word2) {
         if (word1 != word2) {
             cout << "Files are different at line " << lineNum-1 << ":\n";
-            cout << "First different word: " << word1 << "\n";
+            cout << "First different in f1: " << word1 << "\n";
+            cout << "First different in f2: " << word2 << "\n";
             differenceFound = true;
             break;
         }
@@ -42,8 +45,10 @@ void compareWordByWord(ifstream& file1, ifstream& file2) {
     }
 
     if (!differenceFound) {
-        if (file1.eof() && file2.eof()) {
-            std::cout << "Files are identical.\n";
+        if ((file1.eof() && !file2.eof()) || (!file1.eof() && file2.eof()))
+            cout << "Files are not identical.\n";
+        else if (file1.eof() && file2.eof()) {
+            cout << "Files are identical.\n";
         }
     }
 }
