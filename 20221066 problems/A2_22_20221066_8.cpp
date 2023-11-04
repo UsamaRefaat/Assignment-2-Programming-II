@@ -1,3 +1,10 @@
+// File: A2-22-20221066-8.cpp
+// Purpose: solving the assignment.
+// Author: Ziad Tawfik.
+// Section: S22.
+// ID: 20221066.
+// TA: Rana Abd-ELkader.
+// Date: 25 Oct 2023
 #include <iostream>
 using namespace std;
 
