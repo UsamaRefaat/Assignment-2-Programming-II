@@ -418,6 +418,11 @@ BigReal BigReal::operator-(BigReal a) {
     neg1 = a.neg;
     //check if the two number are positive
     if(!neg && !neg1) {
+        // check if they are equal then the difference is zero
+        if (*this == a) {
+            c.number = '0';
+            return c;
+        }
         // check if first number greater than or equal second number
         if ((*this > a)||(*this == a)) {
             if (!(isValid(number) && isValid(a.number))) {
