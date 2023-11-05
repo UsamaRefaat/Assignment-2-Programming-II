@@ -1,17 +1,17 @@
 // ---------------------------------------------------------------------------------------		 
-// File:       BigReal.cpp     						 		                             |
-//                                                                                       |
-// Purpose:   practice on implementation of large clean code and operator overloading.   |
-//                                                                                       |
-// Authors:    Osama Refaat Sayed         20221015 					                     |
-//             Mostafa Mohamed Anwar      20221153 				                       	 |
-//             Ziad Tawfik Abdelnabi      20221066  					                 |
-//                                                                                       |
-// Section:   S21                                                  		               	 |
-// ID:        20221015                                            			             |
-// TA:        Rana Abdelkader                                  				             |
-// Date:      25 Oct 2023     								                             |
-//                                                                                       |
+// File:       BigReal.cpp     						 		                             
+//                                                                                       
+// Purpose:   practice on implementation of large clean code and operator overloading.   
+//                                                                                       
+// Authors:    Osama Refaat Sayed         20221015 					                     
+//             Mostafa Mohamed Anwar      20221153 				                       	 
+//             Ziad Tawfik Abdelnabi      20221066  					                 
+//                                                                                       
+// Section:   S21                                                  		               	 
+// ID:        20221015                                            			             
+// TA:        Rana Abdelkader                                  				             
+// Date:      25 Oct 2023     								                             
+//                                                                                       
 //----------------------------------------------------------------------------------------
 #include "BigReal.h"
 #include <bits/stdc++.h>
