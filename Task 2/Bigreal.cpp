@@ -43,12 +43,12 @@ BigReal ::BigReal(string number)  : number(number) {
     if (this->number[0] == '.') {
         this->number = "0"+this->number;
     }
-    // if for example the is +.900 , so remove the sign and add zero at the beginning
+        // if for example the is +.900 , so remove the sign and add zero at the beginning
     else if (this->number[0] == '+' && this->number[1] == '.') {
         this->number.erase(this->number.begin());
         this->number = "0"+this->number;
     }
-    // if for example the is -.900 , so remove the sign and add zero at the beginning
+        // if for example the is -.900 , so remove the sign and add zero at the beginning
     else if (this->number[0] == '-' && this->number[1] == '.') {
         this->number.erase(this->number.begin());
         this->number = "0"+this->number;
@@ -65,9 +65,9 @@ bool BigReal :: operator>( BigReal a) {
     neg1 = a.neg;
     // check if first number is negative and second is positive so greater operator return false
     if (neg && !neg1) return false;
-    // check if first number is positive and second is negative so greater operator return true
+        // check if first number is positive and second is negative so greater operator return true
     else if (!neg && neg1) return true;
-    // check if both numbers are positive
+        // check if both numbers are positive
     else if (!neg && !neg1) {
         int ctr1{},ctr2{},ind1{},ind2{};
         for (int i = 0; i < number.length(); ++i) {
@@ -88,23 +88,23 @@ bool BigReal :: operator>( BigReal a) {
         }
         // check if number of digits is greater in 1st number so return true
         if (ctr1 > ctr2) {return true;}
-        // check if number of digits is greater in 2nd number so return false
+            // check if number of digits is greater in 2nd number so return false
         else if (ctr1 < ctr2) {return false;}
-        // if number of digits are equal so we will check each digit
+            // if number of digits are equal so we will check each digit
         else {
             for (int i = 0; i < ind1; ++i) {
                 // if digits of first number are greater return true
                 if ((number[i]-'0') > (a.number[i] - '0')) {
                     return true;
                 }
-                // if digits of second are greater return true
+                    // if digits of second are greater return true
                 else if ((number[i]-'0') < (a.number[i] - '0')) {
                     return false;
                 }
             }
             // get the size of each number before decimal point
             int diff1 = number.length()-ind1,diff2 = a.number.length()-ind2;
-           // if second number difference in length is greater or equal
+            // if second number difference in length is greater or equal
             if (diff1 <= diff2) {
                 // loop from the index of decimal point of 1st number and check if each digit is greater
                 for (int i = ind1; i < number.length(); ++i) {
@@ -138,7 +138,7 @@ bool BigReal :: operator>( BigReal a) {
             }
         }
     }
-    // if both numbers are negative
+        // if both numbers are negative
     else {
         string temp1="",temp2="";
         // loops begins after the sign (i=1)
@@ -146,8 +146,8 @@ bool BigReal :: operator>( BigReal a) {
         for (int i = 1; i < a.number.length(); ++i) {temp2 += a.number[i];}
         BigReal b(temp1);
         BigReal c(temp2);
-        // check if 1st number is greater , then return false "as we are working on negative"
-        if (b > c) {
+        // check if 1st number is greater or equal , then return false "as we are working on negative"
+        if (b > c || b == c) {
             return false;
         }
         //otherwise return true
@@ -160,23 +160,27 @@ bool BigReal :: operator<(BigReal a) {
         not_valid();
         exit(0);
     }
-    // point to greater than operator to check if first number is greater so return true
-    if (!(*this > a)) return true;
+    // point to greater than operator to check if first number is greater so return false
+    if (*this > a) return false;
     // point to equal comparison operator to check if both numbers are equal so return false
     if (*this == a) return false;
-    else return false;
+    // otherwise return true
+    return true;
 }
 bool BigReal :: operator==(BigReal a) {
     if (!(isValid(number) && isValid(a.number))) {
         not_valid();
         exit(0);
     }
-    // if it is not greater and not smaller , so its equal
-    if (!(*this > a) && !(*this < a)) {
-        return true;
-    } else {
-        return false;
+    int v = (number.length() <= a.number.length())? number.length():a.number.length();
+    for (int i = 0; i < v; ++i) {
+        if (number[i] != a.number[i]) {
+            return false;
+        }
     }
+    // check if one of the two numbers are greater than the other;
+    if (*this > a || a > *this) return false;
+    else return true;
 }
 //------------------------------------------------------------------------------------------------------------------
 BigReal BigReal :: operator+(BigReal a) {
@@ -198,7 +202,7 @@ BigReal BigReal :: operator+(BigReal a) {
         c.number = "-"+c.number;
         return c;
     }
-    // check if first number is negative and second is positive
+        // check if first number is negative and second is positive
     else if (neg && !a.neg) {
         // erase the sign to work on the number without conflict
         number.erase(number.begin());
@@ -208,7 +212,7 @@ BigReal BigReal :: operator+(BigReal a) {
         number = "-"+number; neg = true;
         return c;
     }
-    // check if first number is positive and second is negative
+        // check if first number is positive and second is negative
     else if (!neg && a.neg) {
         // erase the sign to work on the number without conflict
         a.number.erase(a.number.begin());
@@ -262,7 +266,7 @@ BigReal BigReal :: operator+(BigReal a) {
                 }
             }
         }
-        // if the decimal point place pf first number is after the first number whole size
+            // if the decimal point place pf first number is after the first number whole size
         else {
             // loop begins from the second number end and decrement to the point
             for (int i = a.number.length()-1; i >= ind2; --i) {
@@ -293,12 +297,12 @@ BigReal BigReal :: operator+(BigReal a) {
         reverse(c.number.begin(),c.number.end());
         return c;
     }
-    // check if the second number is whole integer and the first number has decimal floating point
+        // check if the second number is whole integer and the first number has decimal floating point
     else if (ind1 && !ind2) {
         c = a + *this; // point to the plus operator but after swapping both number
         return c;
     }
-    // check if both numbers are whole integers
+        // check if both numbers are whole integers
     else if (!ind1 && !ind2) {
         // if first number size is greater
         if (number.length() >= a.number.length()) {
@@ -327,13 +331,13 @@ BigReal BigReal :: operator+(BigReal a) {
             reverse(c.number.begin(),c.number.end());
             return c;
         }
-        // if second number size is greater
+            // if second number size is greater
         else if (number.length() < a.number.length()) {
             c = a + *this; // point to the plus operator but after swapping both number
             return c;
         }
     }
-    // check if index of the point of 1st number is after the one of the 2nd
+        // check if index of the point of 1st number is after the one of the 2nd
     else if (ind1 >= ind2) {
         //  get the difference
         int h = abs(ind1-ind2);
@@ -352,7 +356,7 @@ BigReal BigReal :: operator+(BigReal a) {
                 k = i;
             }
         }
-        // check if second number size is greater
+            // check if second number size is greater
         else {
             // put the digits of second number in result from the size of the 1st number  (from the end and decrement)
             for (int i = n_num.length()-1; i >= number.length() ; i--) {
@@ -384,7 +388,7 @@ BigReal BigReal :: operator+(BigReal a) {
         reverse(c.number.begin(),c.number.end());
         return c;
     }
-    // check if  ind2> ind1 (the point of second number after the one of the first)
+        // check if  ind2> ind1 (the point of second number after the one of the first)
     else {
         c = a + *this; // point to plus operator after swapping both numbers
         return c;
@@ -472,7 +476,7 @@ BigReal BigReal::operator-(BigReal a) {
                 }
                 c.number = char(diff + '0') + c.number;
             }
-           // remove any leading zero at the beginning
+            // remove any leading zero at the beginning
             while (c.number.length() > 1 && c.number[0] == '0' && c.number[1] != '.') {
                 c.number = c.number.substr(1);
             }
@@ -480,14 +484,14 @@ BigReal BigReal::operator-(BigReal a) {
             if (inte) {c.number.erase(c.number.end()-1);}
             return c;
         }
-        // check if 2nd number is greater than first number , point to minus after swapping number and add '-' to the result
+            // check if 2nd number is greater than first number , point to minus after swapping number and add '-' to the result
         else if ((*this < a)) {
             c = a - *this;
             c.number = '-' + c.number;
             return c;
         }
     }
-    // check if first is negative and second is positive , remove sign , point to plus operator ,add them and add '-' to the result
+        // check if first is negative and second is positive , remove sign , point to plus operator ,add them and add '-' to the result
     else if (neg && !neg1) {
         number.erase(number.begin()); neg = false;
         c = *this + a;
@@ -495,14 +499,14 @@ BigReal BigReal::operator-(BigReal a) {
         c.number = "-" + c.number;
         return c;
     }
-    // check if first is positive and second is negative , remove sign , point to plus operator, add them and return the result
+        // check if first is positive and second is negative , remove sign , point to plus operator, add them and return the result
     else if (!neg && neg1) {
         a.number.erase(a.number.begin()); a.neg = false;
         c = *this + a;
         a.number = "-"+a.number; a.neg = true;
         return c;
     }
-    // check if both numbers are negative , remove signs and point to minus operator , add them and add '-' to the result
+        // check if both numbers are negative , remove signs and point to minus operator , add them and add '-' to the result
     else if (neg && neg1) {
         a.number.erase(a.number.begin()); a.neg = false;
         number.erase(number.begin()); neg = false;
