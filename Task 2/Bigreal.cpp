@@ -305,23 +305,27 @@ BigReal BigReal :: operator+(BigReal a) {
         return c;
     }
 }
+// overloading operator minus to work on two BigReal
 BigReal BigReal::operator-(BigReal a) {
     bool neg1;
     BigReal c;
     neg1 = a.neg;
+    //check if the two number are positive
     if(!neg && !neg1) {
-        if ((*this > a)||(*this == a)) {
+        if ((*this > a)||(*this == a)) { // check if first number greater than or equal second number
             if (!(isValid(number) && isValid(a.number))) {
                 not_valid();
                 exit(0);
             }
             int ind1{},ind2{};
+            // geting the index of the decimal point of 1st Number
             for (int i = 0; i < number.length(); ++i) {
                 if (number[i] == '.') {
                     ind1 = i;
                     break;
                 }
             }
+            //getting the index of the decimal point of 2nd Number
             for (int i = 0; i < a.number.length(); ++i) {
                 if (a.number[i] == '.') {
                     ind2 = i;
@@ -329,22 +333,26 @@ BigReal BigReal::operator-(BigReal a) {
                 }
             }
             bool inte = false;
-            if (!ind1 && !ind2) {inte = true;}
-            if (!ind1) {ind1=number.length(); number += ".0";}
-            if (!ind2) {ind2 = a.number.length(); a.number += ".0";}
+            if (!ind1 && !ind2) {inte = true;} // if there are no decimal point in both number
+            if (!ind1) {ind1=number.length(); number += ".0";} // if there is decimal point in 2nd number , put point to the 1st
+            if (!ind2) {ind2 = a.number.length(); a.number += ".0";} // if there is decimal point in 1st number , put point to the 2nd
+            // loop to balance size of both numbers after point
             while (number.length() - ind1 < a.number.length() - ind2) {
                 number += '0';
             }
-
+            // loop to balance size of both numbers after point
             while (a.number.length() - ind2 < number.length() - ind1) {
                 a.number += '0';
-            }
+            } 
+            // loop to balance size of both numbers before point if point of 1st is after of 2nd
             if (ind1 > ind2) {
                 int loop = ind1 - ind2;
                 while (loop--) {
                     a.number = '0' + a.number;
                 }
-            } else if (ind2 > ind1) {
+            } 
+                // loop to balance size of both numbers before point if point of 1st is before of 2nd
+            else if (ind2 > ind1) {
                 int loop = ind2 - ind1;
                 while (loop--) {
                     number = '0' + number;
