@@ -107,7 +107,7 @@ bool BigReal :: operator>( BigReal a) {
            // if second number difference in length is greater or equal
             if (diff1 <= diff2) {
                 // loop from the index of decimal point of 1st number and check if each digit is greater
-                for (int i = ind1+1; i < number.length(); ++i) {
+                for (int i = ind1; i < number.length(); ++i) {
                     if ((number[i]-'0') > (a.number[i] - '0')) { // if first number is greater , then return true
                         return true;
                     } else if ((number[i]-'0') < (a.number[i] - '0')) { // if second number is greater ,  then return false
@@ -121,7 +121,7 @@ bool BigReal :: operator>( BigReal a) {
             else {
                 int k{};
                 // loop from the index of decimal point of 2nd number and check if each digit is greater
-                for (int i = ind2+1; i < a.number.length(); ++i) {
+                for (int i = ind2; i < a.number.length(); ++i) {
                     if ((number[i]-'0') > (a.number[i] - '0')) { // if first number is greater , then return true
                         return true;
                     } else if ((number[i]-'0') < (a.number[i] - '0')) { // if second number is greater ,  then return false
