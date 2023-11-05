@@ -5,75 +5,83 @@
 // ID: 20221066.
 // TA: Rana Abd-ELkader.
 // Date: 25 Oct 2023
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-# define endl '\n'
-# define ll long long
+
 int main() {
-    deque<pair<int , string>> p;
+    vector<string> names;
+    vector<int> scores;
+
     while (true) {
-        cout << "Enter 1 to add a player." << endl ;
-        cout << "Enter 2 to print 10 top players." <<endl;
-        cout << "Enter 3 to print highest score of a player." << endl ;
-        cout << "Enter 4 to stop program." << endl ;
+        cout << "Enter 1 to add a player." << endl;
+        cout << "Enter 2 to print the top 10 players." << endl;
+        cout << "Enter 3 to print the highest score of a player." << endl;
+        cout << "Enter 4 to stop the program." << endl;
 
         int option;
         cin >> option;
-        if (option == 1 )
-        {   string name ;
-            cin >> name ;
+
+        if (option == 1) {
+            string name;
             int score;
-            cin >>score ;
-            if (p.size() < 10)
-            {
-                p.emplace_back(score , name) ;
+            cout << "Enter player name: ";
+            cin >> name;
+            cout << "Enter player score: ";
+            cin >> score;
 
-                sort(p.begin(), p.end()) ;
+            names.push_back(name);
+            scores.push_back(score);
+
+            if (names.size() > 10) {
+                int minIndex = min_element(scores.begin(), scores.end()) - scores.begin();
+                names.erase(names.begin() + minIndex);
+                scores.erase(scores.begin() + minIndex);
             }
-
-            else if (p.size() ==  10)
-            {
-
-                if (score > p.back().first)
-                {
-                    p.pop_back() ;
-                    p.emplace_back(score , name) ;
-                    cout << "The player is added succefully." << endl ;
-                }
-                else if (score < p.back().first){
-                    cout << "The player was not added. " << endl  ;
-                }
-
+        }
+        else if (option == 2) {
+            if (names.empty()) {
+                cout << "No players in the list." << endl;
             }
+            else {
+                vector<int> sortedScores = scores;
+                sort(sortedScores.rbegin(), sortedScores.rend());
 
-        }
-        else if (option == 2)
-        {
-            sort(p.rbegin(), p.rend()) ;
-            for (auto f : p)
-                cout   << f.second << " " << f.first << endl ;
-            cout << endl ;
-        }
-        else if (option == 3){
-            string c ;
-            cin >> c ;
-            bool ok = 0  ;
-            int z ;
-            for (int i = 0; i < p.size(); ++i) {
-                if (c == p[i].second)
-                {    z = p[i].first ;
-                    ok = 1 ;
+                cout << "Top 10 players:" << endl;
+                for (int i = 0; i < 10 ; ++i) {
+                    int score = sortedScores[i];
+                    int index = find(scores.begin(), scores.end(), score) - scores.begin();
+                    cout << names[index] << " " << score << endl;
                 }
             }
-            if (ok == 0)
-            {
-                cout << "the player's name has not been input or is not in the top 10." << endl ;
-            }
-            else
-                cout << z << endl ;
         }
-        else
+        else if (option == 3) {
+            string name;
+            cout << "Enter player name: ";
+            cin >> name;
+
+            bool found = false;
+            int highestScore = 0;
+            for (size_t i = 0; i < names.size(); ++i) {
+                if (names[i] == name) {
+                    found = true;
+                    highestScore = max(highestScore, scores[i]);
+                }
+            }
+
+            if (found) {
+                cout << "Highest score for player " << name << ": " << highestScore << endl;
+            }
+            else {
+                cout << "The player's name has not been input or is not in the top 10." << endl;
+            }
+        }
+        else if (option == 4) {
             break;
+        }
+
     }
+
     return 0;
 }
