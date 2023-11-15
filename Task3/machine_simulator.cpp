@@ -2,6 +2,17 @@
 using namespace std;
 #include "machine_simulator.h"
 
+// Explanation:
+// The code defines a MachineSimulator class containing various methods to simulate
+// operations performed in a hypothetical machine. These methods handle conversions
+// between binary, hexadecimal, and decimal representations, perform arithmetic
+// operations, manipulate memory, and display the status of registers and memory.
+
+// To execute the simulator, you would typically instantiate the MachineSimulator class
+// and call the 'run_program' method, providing a set of instructions to simulate the machine's
+// behavior based on the operations specified in the instructions.
+
+
 string MachineSimulator :: binary(int n) {
     string bin_str="";
     for (int i = 3; i >= 0; --i) {
@@ -13,7 +24,7 @@ string MachineSimulator :: binary(int n) {
         }
     }
     return bin_str;
-}
+} // - 'binary' converts a decimal number to a 4-bit binary string.
 bool MachineSimulator ::valid_value(string ins) {
     for(char c: ins) {
         if (c >= '0' && c <= '9') {
@@ -23,7 +34,7 @@ bool MachineSimulator ::valid_value(string ins) {
         } else {return false;}
     }
     return true;
-}
+} // - 'valid_value' checks if the instruction contains valid hexadecimal values.
 string MachineSimulator ::convert_hex_bin(string hex) {
     string bin = "";
     for (int i = 0; i < hex.size(); ++i) {
@@ -39,7 +50,7 @@ string MachineSimulator ::convert_hex_bin(string hex) {
         }
     }
     return bin;
-}
+} // - 'convert_hex_bin' converts a hexadecimal string to a binary string.
 string MachineSimulator ::convert_bin_hex(string bin) {
     string hex = "";
     int sum1=0,sum2=0;
@@ -68,12 +79,12 @@ string MachineSimulator ::convert_bin_hex(string bin) {
         hex = hex + hex2;
     }
     return hex;
-}
+} // - 'convert_bin_hex' converts a binary string to a hexadecimal string.
 string MachineSimulator ::dec_to_hex(int dec) {
     stringstream stream;
     stream<<hex<<uppercase<<dec;
     return stream.str();
-}
+} // - 'dec_to_hex' converts a decimal number to a hexadecimal string.
 int MachineSimulator ::convert_hex_dec(string hex) {
     string bin = convert_hex_bin(hex);
     int sum = 0;
@@ -83,7 +94,7 @@ int MachineSimulator ::convert_hex_dec(string hex) {
         }
     }
     return sum;
-}
+} // - 'convert_hex_dec' converts a hexadecimal string to a decimal number.
 double MachineSimulator ::floating_point_hex_to_decimal_float(string hexadecimal) {
     int size = hexadecimal.size();
     int base = 1;
@@ -126,7 +137,7 @@ double MachineSimulator ::floating_point_hex_to_decimal_float(string hexadecimal
         return decimal_mantissa;
     else
         return -decimal_mantissa;
-}
+} // - 'floating_point_hex_to_decimal_float' converts a hexadecimal floating-point representation to a decimal floating-point number.
 string MachineSimulator ::return_and_transform_binary(string res) {
     string binary = "";
     string final;
@@ -175,7 +186,8 @@ string MachineSimulator ::return_and_transform_binary(string res) {
         return '1'+final;
     else
         return '0'+final;
-}
+} // - 'return_and_transform_binary' transforms a given string into a binary representation.
+// - Other functions handle memory operations, arithmetic operations, and display tasks.
 void MachineSimulator ::floating_point_addition(string ans, string hex1, string hex2) {
     double decimal_sum =  (floating_point_hex_to_decimal_float(hex1)+floating_point_hex_to_decimal_float(hex2));
     string sum = to_string(decimal_sum);
@@ -328,6 +340,9 @@ void MachineSimulator ::run_program() {
         }
         program_counter += 2;
     }
-}
+} // The 'run_program' function executes a series of instructions stored in the 'instructions'
+// array. Each instruction is a string that represents an operation or action in the simulator.
+// The function interprets each instruction and simulates the corresponding action in the
+// simulated machine.
 
 
