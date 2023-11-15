@@ -1,3 +1,18 @@
+// ---------------------------------------------------------------------------------------		 
+// File:       machine_simulator.cpp     						 		                             
+//                                                                                       
+// Purpose:   practice on implementation of large clean code and operator overloading.   
+//                                                                                       
+// Authors:    Osama Refaat Sayed         20221015 					                     
+//             Mostafa Mohamed Anwar      20221153 				                       	 
+//             Ziad Tawfik Abdelnabi      20221066  					                 
+//                                                                                       
+// Section:   S21                                                  		               	 
+//                                            			             
+// TA:        Rana Abdelkader                                  				             
+// Date:      15 NOV 2023     								                             
+//                                                                                       
+//----------------------------------------------------------------------------------------
 #include <bits/stdc++.h>
 using namespace std;
 #include "machine_simulator.h"
