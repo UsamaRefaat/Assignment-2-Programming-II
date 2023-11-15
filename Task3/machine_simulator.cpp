@@ -316,7 +316,7 @@ void MachineSimulator ::run_program() {
         } else if (ins[0] == '2') {
             loadRegister(ins.substr(1,1),ins.substr(2,2));
         } else if (ins[0] == '3') {
-            if (ins[2] == '0' && ins[2] == '0') {
+            if (ins[2] == '0' && ins[3] == '0') {
                 display_address_zero(ins.substr(1,1));
             } else
                 StoreInMemory(ins.substr(1,1),ins.substr(2,2));
